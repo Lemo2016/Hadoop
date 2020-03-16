@@ -1,0 +1,38 @@
+1
+Volume数据量大、Velocity处理快速、Variety类型多样、Value价值密度低
+
+2
+全样而非抽样、效率而非精确、相关而非因果
+
+3
+数据采集：利用ETL工具将分布的、异构数据源中的数据抽取至中间层，清洗、转换后加载至数据仓库或数据集市
+数据存储和管理：利用分布式文件系统、数据仓库、关系数据库、NoSQL数据库、云数据库等，对结构化、半结构化和非结构化海量数据进行
+数据处理与分析：利用分布式并行编程模型和计算框架，结合机器学习和数据挖掘算法进行。对分析结果进行可视化。
+数据隐私和安全：构建隐私数据保护体系和数据安全体系
+
+4 核心技术
+分布式存储：GFS\HDFS; BigTable\HBase; NoSQL(键值、列簇、图形、文档); NewSQL(SQL Azure)
+分布式处理：MapReduce
+
+5 分布式计算模式
+批处理（大规模）：MapReduce、Spark
+流计算（实时）：Storm、S4、Flume、Stream、Puma、DStream、Super Mario、银河流数据处理平台
+图计算（图结构）：Pregel、GraphX、Giraph、PowerGraph、Hama、GlodenOrb
+查询分析计算（存储管理和查询分析）：Dremel、Hive、Cassandra、Impala
+
+6 产业链
+IT基础设施：硬件设备、基础设施运营、软件与解决方案供应商
+数据源 
+数据管理层：分布式存储、ETL工具（Informatica、Datastage、Kettle）、数据库和数据仓库
+数据分析层：分布式计算、统计分析（SPSS、SAS）、数据挖掘（Weka）、数据可视化（Tableau）、BI工具（Cognos、BO）
+数据平台层
+数据应用层
+
+7 物联网
+感知层：RFID网络（M2M终端、导航定位）、传感器网络（二维码标签、传感器）
+网络层：电信、广电、互联网、电专用网
+处理层：中间件平台
+应用层：人工智能
+
+
+
