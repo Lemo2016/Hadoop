@@ -19,37 +19,89 @@ Flume 一个高可用的，高可靠的，分布式的海量日志采集、聚�
 网络配置：桥接模式
 
 4 安装Hadoop
-ctrl+alt+t                              #终端
-sudo useradd -m hadoop -s /bin/bash     #创建hadoop用户,/bin/bash作为shell
+ctrl+alt+t                              # 终端
+sudo useradd -m hadoop -s /bin/bash     # 创建hadoop用户,/bin/bash作为shell
 sudo passwd hadoop
-sudo adduser hadoop sudo                #注销管理员、登录hadoop
+sudo adduser hadoop sudo                # 注销管理员、登录hadoop
 
 sudo apt-get update 
-sudo apt-get install vim                #Esc返回、i编辑、:wq保存并退出
+sudo apt-get install vim                # Esc返回、i编辑、:wq保存并退出
 
-sudo apt-get install openssh-server     #安装ssh
+sudo apt-get install openssh-server     # 安装ssh
 ssh localhost 
-exit                                    #退出localhost
+exit                                    # 退出localhost
 cd ~/.ssh/                              # 若没有该目录，请先执行一次ssh localhost
 ssh-keygen -t rsa                       # 会有提示，都按回车就可以
 cat ./id_rsa.pub >> ./authorized_keys   # 加入授权
 
-cd /usr/lib                             
-sudo mkdir jvm                          #创建/usr/lib/jvm目录用来存放JDK文件
-cd ~                                    #进入hadoop用户的主目录
-cd Downloads                            #注意区分大小写字母，刚才已经通过FTP软件把JDK安装包jdk-8u162-linux-x64.tar.gz上传到该目录下
+cd /usr/lib                             # 下面解压安装java
+sudo mkdir jvm                          # 创建/usr/lib/jvm目录用来存放JDK文件
+cd ~                                    # 进入hadoop用户的主目录
+cd Downloads                            # 注意区分大小写字母，刚才已经通过FTP软件把JDK安装包jdk-8u162-linux-x64.tar.gz上传到该目录下
 sudo tar -zxvf ./jdk-8u162-linux-x64.tar.gz -C /usr/lib/jvm                                  #把JDK文件解压到/usr/lib/jvm目录下
 cd /usr/lib/jvm                          
-ls                                      #列出目录（jdk1.8.0_162）
+ls                                      # 列出目录（jdk1.8.0_162）
 cd ~
-vim ~/.bashrc
-#修改环境变量
+vim ~/.bashrc                           # 修改环境变量
+#
 export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_162
 export JRE_HOME=${JAVA_HOME}/jre
 export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
 export PATH=${JAVA_HOME}/bin:$PATH
-source ~/.bashrc                        #执行.bashrc生效
-java -version
+#
+source ~/.bashrc                        # 执行.bashrc生效
+java -version                           # java version "1.8.0_162"
+
+sudo tar -zxf ~/下载/hadoop-2.7.1.tar.gz -C /usr/local          # 解压hadoop-2.7.1.tar.gz到/usr/local中
+cd /usr/local/
+sudo mv ./hadoop-2.7.1/ ./hadoop        # 将文件夹名改为hadoop
+sudo chown -R hadoop ./hadoop           # 修改文件权限
+cd /usr/local/hadoop                    # . 相对路径, cd == cd ~ == cd /home/用户名， - 返回之前目录， ..返回上一级目录
+./bin/hadoop version                    # hadoop-2.7.1
+
+cd /usr/local/hadoop                    # 单机模式测试
+mkdir ./input
+cp ./etc/hadoop/*.xml ./input           # 将配置文件作为输入文件
+./bin/hadoop jar ./share/hadoop/mapreduce/hadoop-mapreduce-examples-*.jar grep ./input ./output 'dfs[a-z.]+'
+cat ./output/*                          # 查看运行结果 dfsadmin
+rm -r ./output                          # 将 ./output 删除
+
+cd /usr/local/hadoop/etc/hadoop         # 配置-伪分布式
+vim ./core-site.xml                     
+#
+<configuration>
+    <property>
+        <name>hadoop.tmp.dir</name>
+        <value>file:/usr/local/hadoop/tmp</value>
+        <description>Abase for other temporary directories.</description>
+    </property>
+    <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://localhost:9000</value>
+    </property>
+</configuration>
+#
+vim ./hdfs-site.xml
+#
+<configuration>
+    <property>
+        <name>dfs.replication</name>
+        <value>1</value>
+    </property>
+    <property>
+        <name>dfs.namenode.name.dir</name>
+        <value>file:/usr/local/hadoop/tmp/dfs/name</value>
+    </property>
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>file:/usr/local/hadoop/tmp/dfs/data</value>
+    </property>
+</configuration>
+#
+cd /usr/local/hadoop
+./bin/hdfs namenode -format             # NameNode格式化,成功提示"name has been succesfully formatted”和“Exitting with status 0” 
+
+
 
 
 
