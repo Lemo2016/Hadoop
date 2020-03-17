@@ -1,0 +1,61 @@
+1 概述
+Apache软件基金会-开源分布式计算平台
+基于Java
+核心:分布式文件系统HDFS（Hadoop Distributed File System）和MapReduce 
+可靠、高效、可扩展、高容错、成本低、Linux平台、支持多语言
+
+2 部分结构
+Hive Hadoop上的数据仓库 
+Pig 一个基于Hadoop的大规模数据分析平台，提供类似SQL的查询语言Pig Latin 
+Sqoop 用于在Hadoop与传统数据库之间进行数据传递 
+Storm 流计算框架 
+Flume 一个高可用的，高可靠的，分布式的海量日志采集、聚合和传输的系统 
+
+3 虚拟机安装Linux
+按住shift\ctrl\alt+左键移动窗口
+交换空间：512M、主分区、空间起始位置
+挂载点“/”：逻辑分区、空间起始位置、EXT4日志文件系统
+设备-安装增强功能：sudo apt-get install virtualbox-guest-dkms
+网络配置：桥接模式
+
+4 安装Hadoop
+ctrl+alt+t                              #终端
+sudo useradd -m hadoop -s /bin/bash     #创建hadoop用户,/bin/bash作为shell
+sudo passwd hadoop
+sudo adduser hadoop sudo                #注销管理员、登录hadoop
+
+sudo apt-get update 
+sudo apt-get install vim                #Esc返回、i编辑、:wq保存并退出
+
+sudo apt-get install openssh-server     #安装ssh
+ssh localhost 
+exit                                    #退出localhost
+cd ~/.ssh/                              # 若没有该目录，请先执行一次ssh localhost
+ssh-keygen -t rsa                       # 会有提示，都按回车就可以
+cat ./id_rsa.pub >> ./authorized_keys   # 加入授权
+
+cd /usr/lib                             
+sudo mkdir jvm                          #创建/usr/lib/jvm目录用来存放JDK文件
+cd ~                                    #进入hadoop用户的主目录
+cd Downloads                            #注意区分大小写字母，刚才已经通过FTP软件把JDK安装包jdk-8u162-linux-x64.tar.gz上传到该目录下
+sudo tar -zxvf ./jdk-8u162-linux-x64.tar.gz -C /usr/lib/jvm                                  #把JDK文件解压到/usr/lib/jvm目录下
+cd /usr/lib/jvm                          
+ls                                      #列出目录（jdk1.8.0_162）
+cd ~
+vim ~/.bashrc
+#修改环境变量
+export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_162
+export JRE_HOME=${JAVA_HOME}/jre
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
+export PATH=${JAVA_HOME}/bin:$PATH
+source ~/.bashrc                        #执行.bashrc生效
+java -version
+
+
+
+
+
+
+
+
+
