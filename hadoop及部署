@@ -100,7 +100,19 @@ vim ./hdfs-site.xml
 #
 cd /usr/local/hadoop
 ./bin/hdfs namenode -format             # NameNode格式化,成功提示"name has been succesfully formatted”和“Exitting with status 0” 
+                                        # http://localhost:50070 Web界面
+./bin/hdfs dfs -mkdir -p /user/hadoop   # 伪分布式实例，hadoop fs适用本地文件和HDFS文件系统，hadoop dfs、hdfs dfs适用HDFS文件系统
+./bin/hdfs dfs -mkdir input            
+./bin/hdfs dfs -put ./etc/hadoop/*.xml input                        # /etc/hadoop 中的xml文件复制到分布式文件系统
+./bin/hdfs dfs -ls input                # 查看文件列表
+./bin/hadoop jar ./share/hadoop/mapreduce/hadoop-mapreduce-examples-*.jar grep input output 'dfs[a-z.]+'
+./bin/hdfs dfs -cat output/*            # 查看HDFS输出结果，同上单机
+rm -r ./output                          # 先删除本地的 output 文件夹（如果存在）
+./bin/hdfs dfs -get output ./output     # 将 HDFS 上的 output 文件夹拷贝到本机
+cat ./output/*
+./bin/hdfs dfs -rm -r output            # 删除 output 文件夹
 
+./sbin/stop-dfs.sh                      #关闭 Hadoop
 
 
 
