@@ -115,6 +115,16 @@ cat ./output/*
 ./sbin/stop-dfs.sh                      #关闭 Hadoop
 
 
+5 something more
+在主文件夹~ 执行ls，等同于 /bin/ls
+Hadoop环境变量：
+vim ~/.bashrc
+#
+export PATH=$PATH:/usr/local/hadoop/sbin:/usr/local/hadoop/bin          #添加
+#
+source ~/.bashrc
+
+
 
 
 
