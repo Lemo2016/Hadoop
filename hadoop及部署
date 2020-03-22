@@ -126,7 +126,8 @@ export PATH=$PATH:/usr/local/hadoop/sbin:/usr/local/hadoop/bin          # 添加
 source ~/.bashrc
 hdfs dfs -ls input                      # 测试
 
-摘自 http://dblab.xmu.edu.cn/blog/install-hadoop/
+摘自 Hadoop安装教程_单机/伪分布式配置 http://dblab.xmu.edu.cn/blog/install-hadoop/
+Hadoop集群安装配置教程: http://dblab.xmu.edu.cn/blog/install-hadoop-cluster/
 
 
 
